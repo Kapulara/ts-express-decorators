@@ -1,11 +1,11 @@
-import * as Express from "express";
 import {$log} from "ts-log-debug";
+import "../../../src/ajv";
 import {ServerLoader, ServerSettings} from "../../../src/index";
 import "../../../src/swagger";
-import "../../../src/ajv";
-import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
-import Path = require("path");
 import {RestCtrl} from "./controllers/RestCtrl";
+import TestAcceptMimeMiddleware from "./middlewares/acceptmime";
+// import "./middlewares/authentication";
+import Path = require("path");
 
 const rootDir = Path.resolve(__dirname);
 
@@ -65,18 +65,6 @@ export class ExampleServer extends ServerLoader {
         this.engine(".html", require("ejs").__express)
             .set("views", "./views")
             .set("view engine", "html");
-    }
-
-    /**
-     * Set here your check authentification strategy.
-     * @param request
-     * @param response
-     * @param next
-     * @returns {boolean}
-     */
-    public $onAuth(request: Express.Request, response: Express.Response, next: Express.NextFunction): void {
-
-        next(request.get("authorization") === "token");
     }
 
     /**
